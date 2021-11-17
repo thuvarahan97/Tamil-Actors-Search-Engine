@@ -18,7 +18,7 @@ def scrape_actors_links():
         url_i = url + i
         req = requests.get(url_i)
         page = req.content
-        soup = BeautifulSoup(page, 'lxml', from_encoding='utf-8')
+        soup = BeautifulSoup(page, 'html.parser', from_encoding='utf-8')
         page_category = soup.find('div', attrs={'class': 'mw-category'})
         page_category_group = page_category.find_all('div', attrs={'class': 'mw-category-group'})
         for group in page_category_group:
@@ -41,7 +41,7 @@ def scrape_actor_data(url):
     data = []
     req = requests.get(url)
     page = req.content
-    soup = BeautifulSoup(page, 'lxml', from_encoding='utf-8')
+    soup = BeautifulSoup(page, 'html.parser', from_encoding='utf-8')
     info = soup.find('table', attrs={'class': 'infobox vcard'})
     try:
         info_body = info.find('tbody')
@@ -75,3 +75,4 @@ if __name__ == "__main__":
     # # Save single actor data as json file
     # with codecs.open('data_actor.json', 'w', encoding='utf-8') as file:
     #     json.dump(data, file, ensure_ascii=False)
+   
