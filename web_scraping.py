@@ -1,15 +1,16 @@
 import codecs
 import json
 import re
+from pathlib import Path
 from typing import List
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from googletrans import Translator
-
 base_url = 'https://ta.wikipedia.org'
+
+data_dir = "data/"
 
 page_indices = ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ',
                 'க', 'ச', 'ட', 'த', 'ந', 'ப', 'ம', 'ய', 'ர', 'ல', 'வ', 'ஹ', 'ஸ', 'ஜ']
@@ -329,16 +330,23 @@ def get_info_row_texts(row_td: Tag):
 
 
 if __name__ == "__main__":
-    # # Scrape urls of a list of actors from web page
-    # data = scrape_actors_links()
-    #
-    # # Save urls of actors in a csv file
-    # df = pd.DataFrame.from_records(data)
-    # df.to_csv('data_actors_links.csv', index=False, encoding='utf-8-sig')
+    # Create data directory
+    Path(data_dir).mkdir(parents=True, exist_ok=True)
 
-    # print()
+    # ######## Actors URLs ######### #
+    # Scrape urls of a list of actors from web page
+    data = scrape_actors_links()
 
-    df = pd.read_csv('data_actors_links.csv', encoding='utf-8-sig')
+    # Save urls of actors in a csv file
+    df = pd.DataFrame.from_records(data)
+    df.to_csv(data_dir + 'data_actors_links.csv', index=False, encoding='utf-8-sig')
+
+    print()
+    # ############################## #
+
+    # ######## Actors Data ######### #
+    # Load actors urls csv file
+    df = pd.read_csv(data_dir + 'data_actors_links.csv', encoding='utf-8-sig')
     actor_urls = pd.DataFrame(df, columns=['actor', 'url'])
 
     actors = []
@@ -346,39 +354,49 @@ if __name__ == "__main__":
     actors_with_movies = []
     actors_with_info_movies = []
 
+    # Scrape each actor's data from urls
     print("Scraping each actor's data...")
     try:
         for i in range(len(actor_urls['url'])):
+            # Scrape actor data
             actor = scrape_actor_data(actor_urls['url'][i])
             actors.append(actor)
+            # Actor data having date of birth
             if actor['date_of_birth'] != "":
                 actors_with_info.append(actor)
+            # Actor data having filmography
             if len(actor['movies']) > 0:
                 actors_with_movies.append(actor)
+            # Actor data having both date of birth and filmography
             if actor['date_of_birth'] != "" and len(actor['movies']) > 0:
                 actors_with_info_movies.append(actor)
+            # Display progress of completion
             print('\rCompleted: %s/%s' % (i + 1, len(actor_urls['url'])), end='\r')
         print()
     except KeyboardInterrupt:
         print()
 
+    # Display data count
     print("Total Data:", len(actors))
     print("Data with info:", len(actors_with_info))
     print("Data with filmography:", len(actors_with_movies))
     print("Data with info & filmography:", len(actors_with_info_movies))
 
     # Save single actor data as json file
-    with codecs.open('data_actors.json', 'w', encoding='utf-8') as file:
+    with codecs.open(data_dir + 'data_actors.json', 'w', encoding='utf-8') as file:
         json.dump(actors, file, ensure_ascii=False, indent=4)
-    with codecs.open('data_actors_with_info.json', 'w', encoding='utf-8') as file:
+    with codecs.open(data_dir + 'data_actors_with_info.json', 'w', encoding='utf-8') as file:
         json.dump(actors_with_info, file, ensure_ascii=False, indent=4)
-    with codecs.open('data_actors_with_movies.json', 'w', encoding='utf-8') as file:
+    with codecs.open(data_dir + 'data_actors_with_movies.json', 'w', encoding='utf-8') as file:
         json.dump(actors_with_movies, file, ensure_ascii=False, indent=4)
-    with codecs.open('data_actors_with_info_movies.json', 'w', encoding='utf-8') as file:
+    with codecs.open(data_dir + 'data_actors_with_info_movies.json', 'w', encoding='utf-8') as file:
         json.dump(actors_with_info_movies, file, ensure_ascii=False, indent=4)
+    # ############################## #
 
+    # ######### Single Actor Data ######## #
     # # # Scrape single actor data
     # data = scrape_actor_data("https://ta.wikipedia.org/wiki/%E0%AE%95%E0%AE%AE%E0%AE%B2%E0%AF%8D%E0%AE%B9%E0%AE%BE%E0%AE%9A%E0%AE%A9%E0%AF%8D")
     #
-    # with codecs.open('data_actor.json', 'w', encoding='utf-8') as file:
+    # with codecs.open(data_dir + 'data_actor.json', 'w', encoding='utf-8') as file:
     #     json.dump(data, file, ensure_ascii=False, indent=4)
+    # ############################## #
