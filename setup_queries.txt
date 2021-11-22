@@ -1,0 +1,92 @@
+# ######## Delete index ########
+
+DELETE
+http://localhost:9200/tamilactors/
+
+# ##############################
+
+
+
+# ######## Custom stemmer, stopper and synonyms ########
+
+PUT
+http://localhost:9200/tamilactors/
+
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "standard",
+                    "filter": ["custom_stopper", "custom_stems", "custom_synonyms"]
+                }
+            },
+            "filter": {
+                "custom_stopper": {
+                    "type": "stop",
+                    "stopwords_path": "analyze/stopwords.txt"
+                },
+                "custom_stems": {
+                    "type": "stemmer_override",
+                    "rules_path": "analyze/stems.txt"
+                },
+                "custom_synonyms": {
+                    "type": "synonym",
+                    "synonyms_path": "analyze/synonyms.txt"
+                }
+            }
+        }
+    }
+}
+
+# ##############################
+
+
+
+# ######### Aggregation #########
+
+PUT
+http://localhost:9200/tamilactors/_mapping
+
+{
+  "properties": {
+    "name": { "type": "text" },
+    "date_of_birth": { "type": "date" },
+    "date_of_death": { "type": "date" },
+    "place_of_birth": { "type": "text" },
+    "spouse": {
+      "type": "text",
+      "fields": {
+        "keyword": { "type": "keyword" }
+      }
+    },
+    "children": {
+      "type": "text",
+      "fields": {
+        "keyword": { "type": "keyword" }
+      }
+    },
+    "movies": {
+      "type": "nested",
+      "properties": {
+        "year": { "type": "text", "fielddata": true },
+        "movie": { "type": "text", "fielddata": true }
+      }
+    },
+    "other_occupations": {
+      "type": "text", "fielddata": true,
+      "fields": {
+        "keyword": { "type": "keyword" }
+      }
+    },
+    "awards": {
+      "type": "text", "fielddata": true,
+      "fields": {
+        "keyword": { "type": "keyword" }
+      }
+    },
+    "description": { "type": "text" }
+  }
+}
+
+# ##############################

@@ -1,0 +1,97 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="s006" style="display: block; margin: auto">
+    <form action="http://127.0.0.1:5000/" method="post" style="display: block; margin: 50px auto 10px">
+        <fieldset>
+            <legend>Tamil Actors Search Engine</legend>
+            <div class="inner-form">
+                <div class="input-field">
+                    <button class="btn-search" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                        </svg>
+                    </button>
+                    <input id="search" type="text" placeholder="Search here" value="" class="searchTerm"
+                           name="searchTerm"/>
+                </div>
+        </fieldset>
+    </form>
+
+    <br><br>
+
+    <div style="background: white; border-radius: 10px; padding: 25px 35px; margin: 10px 25px 25px;">
+        {% if hits %}
+        <hgroup class="mb20">
+            <h1>Search Results</h1>
+            <h2 class="lead" id="results"><strong class="text-danger">{{ num_results }}</strong> results were found for
+                the search for <strong class="text-danger">{{ query }}</strong></h2>
+            <h2 class="lead" id="results"> About <strong class="text-danger">({{ time }}ms)</strong></h2>
+        </hgroup>
+        <h4><span>Results: </span>
+            <ul id="tags" style="display: inline-block"></ul>
+        </h4>
+
+        <section id='song_section' class="col-md-8">
+            {% for hit in hits %}
+            <article class="search-result row">
+                <div class="col-md-12">
+                    <h3 style="color: purple;">{{ hit._source.name }}</h3>
+                    <ul class="meta-search">
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Date of Birth:</span> {{ hit._source.date_of_birth }}</span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Date of Death:</span> {{ hit._source.date_of_death }}</span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Place of Birth:</span> {{ hit._source.place_of_birth }}</span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Spouse:</span> {{ hit._source.spouse if hit._source.spouse|length > 0 else None }} </span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Children:</span> {{ hit._source.children if hit._source.children|length > 0 else None }} </span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Movies:</span> {{ hit._source.movies[0:10] }}</span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Other Occupations:</span> {{ hit._source.other_occupations if hit._source.other_occupations|length > 0 else None }}</span>
+                        </li>
+                        <li><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Awards:</span> {{ hit._source.awards if hit._source.awards|length > 0 else None }}</span>
+                        </li>
+                        <li class="justify"><i class="glyphicon glyphicon-tags"></i> <span><span class="key">Description:</span> {{ hit._source.description|truncate(500, True, '. . .') }}</span>
+                        </li>
+                    </ul>
+                    <p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+                <span class="clearfix borda"></span>
+            </article>
+            {% endfor %}
+        </section>
+
+
+        {% else %}
+        {% if init %}
+        <hgroup class="mb20">
+            <h1>Song Search Engine</h1>
+            <h2 class="lead">Please enter the search query in the box</strong></h2>
+        </hgroup>
+        {% else %}
+        <hgroup class="mb20">
+            <h1>Search Results</h1>
+            <h2 class="lead"><strong class="text-danger">0</strong> results were found for the search for <strong
+                    class="text-danger">{{ query }}</strong></h2>
+        </hgroup>
+        {% endif %}
+        {% endif %}
+    </div>
+
+</div>
+</body>
+</html>
