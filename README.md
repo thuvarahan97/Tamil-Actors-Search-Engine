@@ -62,7 +62,7 @@ Each actor contains the following data fields.
 10. description - Description of the actor
 
 ## SampleQueries
-* Search for an actor by his name or any of the listed data fields.
+* Search for an actor by any of the listed data fields.
  > E.g.- "கமல்ஹாசன்"
 ```
 {
