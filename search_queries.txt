@@ -145,7 +145,7 @@ GET tamilactors/_search
 }
 
 
-10. Nested Aggregation
+10. Nested Aggregation query
 {
   "size": 0,
   "aggs": {
@@ -166,48 +166,11 @@ GET tamilactors/_search
 }
 
 
----------------------------
+-------------
 Other queries
----------------------------
+-------------
 
-1. Birth Date
-{
-     "query" : {
-          "query_string" : {
-              "default_field": "name",
-              "query" : "கமல்ஹாச*"
-         }
-     },
-     "_source": ["date_of_birth", "name"]
-}
-
-{
-    "query": {
-        "wildcard": {
-            "name": {
-                "value": "கமல்ஹா*",
-                "boost": 1.0,
-                "rewrite": "constant_score"
-            }
-        }
-    },
-    "_source": ["date_of_birth", "name"]
-}
-
-
-2. first movie of an actor
-
-
-3. last movie of an actor
-
-
-4. years active in the cinema field by an actor
----------
-
-5. check whether an actor is already dead
----------
-
-6. list of actors with their place of birth as a specified place
+1. List of actors with their place of birth as a specified place
 {
   "query": {
     "wildcard": {
@@ -221,10 +184,8 @@ Other queries
      "_source": ["place_of_birth", "name"]
 }
 
-7. list of actors debuted in a specific year
 
-
-8. list of actors who have been directors
+2. List of actors who have been directors
 {
      "query" : {
           "query_string" : {
@@ -235,7 +196,8 @@ Other queries
      "_source": ["other_occupations", "name"]
 }
 
-9. list of actors who have been music directors
+
+3. List of actors who have been music directors
 {
      "query" : {
           "query_string" : {
@@ -255,7 +217,8 @@ Other queries
      "_source": ["other_occupations", "name"]
 }
 
-10. list of actors who have received a specific award
+
+4. List of actors who have received a specific award
 {
      "query" : {
           "wildcard" : {
@@ -265,7 +228,8 @@ Other queries
      "_source": ["awards", "name"]
 }
 
-11. Actors acted in 2020
+
+5. Actors who acted in 2020
 {
   "query": {
     "nested": {
@@ -286,7 +250,7 @@ Other queries
   }
 }
 
-12. People who got செவாலியர் விருது
+6. People who got செவாலியர் விருது
 {
      "query" : {
           "query_string" : {
