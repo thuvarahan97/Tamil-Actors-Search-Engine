@@ -182,7 +182,7 @@ Each actor contains the following data fields.
     }
 }
 ```
-* Can search for lyricists who were born in Chennai (Filtered query)
+* Search for actors who are lyricists and were born in Chennai (Filtered query)
  > E.g. - சென்னை பாடலாசிரியர்
 ```
 {
