@@ -42,6 +42,9 @@ This repository contains the source code of Tamil Actors Search Engine implement
 * Search for actors (Works only for basic search queries at the moment using this web app)
 * For advanced queries, try the search queries available in the [search_queries.txt](/search_queries.txt) file using [Postman](https://www.postman.com/downloads/) or [Kibana](https://www.elastic.co/kibana/).
 
+## Data
+The data have been scraped in **Tamil** language from the web page [https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்](https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்). This web page contains a list of names of tamil actors under the section "தமிழ்த் திரைப்பட நடிகர்கள்" பகுப்பிலுள்ள கட்டுரைகள் in which each name contains a web link to the main page of the actor. 
+
 ## Data fields 
 Each actor contains the following data fields.
 1. name - Name of the actor
@@ -57,3 +60,18 @@ Each actor contains the following data fields.
 8. other_occupations - List of occupations carried out by the actor other than acting
 9. awards - List of awards received by the actor
 10. description - Description of the actor
+
+## SampleQueries
+* Search for an actor by his name or any of the listed data fields.
+ > E.g.- "கமல்ஹாசன்"
+```
+{
+    "query": {
+        "query_string": {
+            "query":"கமல்ஹாசன்"
+        }
+    }
+}
+```
+
+* Search for an actor specifying the field when you just know any of the listed data fields.
