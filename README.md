@@ -25,7 +25,7 @@ This repository contains the source code of Tamil Actors Search Engine implement
 * Clone the repo and install the required Python dependencies.
   ```commandline
   git clone https://github.com/thuvarahan97/Tamil-Actors-Search-Engine.git
-  cd Sinhala Songs Search
+  cd Tamil-Actors-Search-Engine
   virtualenv -p python3 envname
   source env/bin/activate
   pip3 install -r requirements.txt
