@@ -63,12 +63,12 @@ Each actor contains the following data fields.
 
 ## SampleQueries
 * Search for actors by any of the listed data fields.
- > E.g.- "பத்மஸ்ரீ"
+ > E.g.- "கமல்ஹாசன்"
 ```
 {
     "query": {
         "query_string": {
-            "query":"பத்மஸ்ரீ"
+            "query":"கமல்ஹாசன்"
         }
     }
 }
@@ -86,12 +86,12 @@ Each actor contains the following data fields.
 }
 ```
 * Search with WildCard when you are not sure about the spelling of the word.
- > E.g.- "பத்ம*" for "பத்மஸ்ரீ"
+ > E.g.- "கமல்*" for "கமல்ஹாசன்"
 ```
 {
      "query" : {
           "wildcard" : {
-              "awards" : "பத்ம*"
+              "name" : "கமல்*"
          }
      }
 }
