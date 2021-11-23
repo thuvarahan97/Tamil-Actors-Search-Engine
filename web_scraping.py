@@ -57,7 +57,7 @@ def scrape_actor_data(url):
     actor['movies'] = []
     actor['other_occupations'] = []
     actor['awards'] = []
-    actor['intro'] = ""
+    actor['description'] = ""
 
     req = requests.get(url)
     page = req.content
@@ -127,7 +127,7 @@ def scrape_actor_data(url):
         elif tag.name != 'p' and tag.name != 'table':
             break
     if len(intro_texts) > 0:
-        actor['intro'] = (" ".join(intro_texts)).replace("  ", "")
+        actor['description'] = (" ".join(intro_texts)).replace("  ", "")
 
     # Grab filmography data
     actor['movies'].extend(extract_filmography(soup))

@@ -53,7 +53,7 @@ def generate_data(actors):
         movies = list(filter(None, map(format_movie, actor.get("movies", []))))
         other_occupations = list(filter(None, map(format_text, actor.get("other_occupations", []))))
         awards = list(filter(None, map(format_text, actor.get("awards", []))))
-        description = format_text(actor.get('intro', None))
+        description = format_text(actor.get('description', None))
 
         yield {
             "_source": {
