@@ -43,7 +43,7 @@ This repository contains the source code of Tamil Actors Search Engine implement
 * For advanced queries, try the search queries available in the [search_queries.txt](/search_queries.txt) file using [Postman](https://www.postman.com/downloads/) or [Kibana](https://www.elastic.co/kibana/).
 
 ## Data
-The data have been scraped in **Tamil** language from the web page [https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்](https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்) using the HTML/XML parsing library BeautifulSoup. This web page contains a list of names of tamil actors under the section "தமிழ்த் திரைப்பட நடிகர்கள்" பகுப்பிலுள்ள கட்டுரைகள் in which each name contains a web link to the main page of the actor. 
+The data have been scraped in **Tamil** language from the Wikipedia website [https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்](https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்) using the HTML/XML parsing library BeautifulSoup. This web page contains a list of names of tamil actors under the section "தமிழ்த் திரைப்பட நடிகர்கள்" பகுப்பிலுள்ள கட்டுரைகள் in which each name contains a web link to the main page of the actor. 
 
 ## Data fields 
 Each actor contains the following data fields.
@@ -125,21 +125,23 @@ Each actor contains the following data fields.
    }
 }
 ```
-* Search for Famous songs (of music directors/gneres/singers) where 'famous' is marked upon "நுகர்ச்சி" (views)
- > E.g. - பிரபல்யமான 15 ஹரிஷ் ஜெயராஜ் பாடல்கள்
+* Search for actors who acted in year 2020 (Nested query)
+ > E.g. - 2020 ஆம் ஆண்டில் நடித்த நடிகர்
 ```
 {
-   "size":15,
-   "sort" : [
-       { "நுகர்ச்சி" : {"order" : "desc"}}
-   ],
-   "query": {
-       "multi_match": {
-           "fields":["இசையமைப்பாளர்"],
-           "query" : "ஹரிஷ் ஜெயராஜ்",
-           "fuzziness": "AUTO"
-       }
-   }
+    "query": {
+        "nested" : {
+            "path" : "movies",
+            "score_mode" : "avg",
+            "query" : {
+                "bool" : {
+                  "must" : [
+                      { "match" : {"movies.year" : "2020"} }
+                    ]
+                }
+            }
+        }
+    }
 }
 ```
 * Search with query spanning multiple fields
