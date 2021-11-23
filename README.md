@@ -21,10 +21,10 @@ This repository contains the source code of Tamil Actors Search Engine implement
  ├── web_scraping.py : Python file to scrape data, preprocess and store them in a JSON file
 ```
 
-## Getting started
+## Getting Started
 * Clone the repo and install the required Python dependencies.
   ```commandline
-  git clone https://github.com/thuvarahan97/Tamil-Actors-Search.git
+  git clone https://github.com/thuvarahan97/Tamil-Actors-Search-Engine.git
   cd Sinhala Songs Search
   virtualenv -p python3 envname
   source env/bin/activate
@@ -61,7 +61,7 @@ Each actor contains the following data fields.
 9. awards - List of awards received by the actor
 10. description - Description of the actor
 
-## SampleQueries
+## Sample Queries
 * Search for actors by any of the listed data fields.
  > E.g.- "கமல்ஹாசன்"
 ```
