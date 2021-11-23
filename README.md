@@ -40,7 +40,7 @@ This repository contains the source code of Tamil Actors Search Engine implement
 * Run ```python app.py``` in a terminal.
 * Go to http://127.0.0.1:5000/
 * Search for actors (Works only for basic search queries at the moment using this web app)
-* For advanced queries, try the search queries available in the [search_queries.txt](/search_queries.txt) file using [Postman](https://www.postman.com/downloads/) or [Kibana](https://www.elastic.co/kibana/).
+* For advanced queries, try the given [Sample Queries](#sample-queries) using [Postman](https://www.postman.com/downloads/) or [Kibana](https://www.elastic.co/kibana/).
 
 ## Data
 The data have been scraped in **Tamil** language from the Wikipedia website [https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்](https://ta.wikipedia.org/w/index.php?title=பகுப்பு:தமிழ்த்_திரைப்பட_நடிகர்கள்) using the HTML/XML parsing library BeautifulSoup. This web page contains a list of names of tamil actors under the section "தமிழ்த் திரைப்பட நடிகர்கள்" பகுப்பிலுள்ள கட்டுரைகள் in which each name contains a web link to the main page of the actor. 
