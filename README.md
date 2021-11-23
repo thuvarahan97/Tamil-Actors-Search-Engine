@@ -6,7 +6,7 @@ This repository contains the source code of Tamil Actors Search Engine implement
 ```
  ├── analyzers : Custom Elasticsearch filters (Stems, Stopwords, Synonyms)
  ├── data : Data scraped from the website (https://ta.wikipedia.org/)
-     ├── data_actors.json : Contains all scraped data of actors
+     ├── data_actors.json : Contains all the scraped data of actors
      ├── data_actors_links.csv : Contains web urls of actors to scrape data from.
      ├── data_actors_with_info.json : Contains scraped data of actors having non-null 'date_of_birth'
      ├── data_actors_with_movies.json : Contains scraped data of actors having non-empty 'movies'
