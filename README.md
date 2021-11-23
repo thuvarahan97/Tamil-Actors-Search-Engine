@@ -62,16 +62,190 @@ Each actor contains the following data fields.
 10. description - Description of the actor
 
 ## SampleQueries
-* Search for an actor by any of the listed data fields.
- > E.g.- "கமல்ஹாசன்"
+* Search for actors by any of the listed data fields.
+ > E.g.- "பத்மஸ்ரீ"
 ```
 {
     "query": {
         "query_string": {
-            "query":"கமல்ஹாசன்"
+            "query":"பத்மஸ்ரீ"
         }
     }
 }
 ```
 
-* Search for an actor specifying the field when you just know any of the listed data fields.
+* Search for actors specifying the field when you just know any of the listed data fields.
+ > E.g.- "விருது பத்மஸ்ரீ"
+```
+{
+     "query" : {
+          "match" : {
+             "awards" : "பத்மஸ்ரீ"
+         }
+     }
+}
+```
+* Search with WildCard when you are not sure about the spelling of the word.
+ > E.g.- "பத்ம*" for "பத்மஸ்ரீ"
+```
+{
+     "query" : {
+          "wildcard" : {
+              "awards" : "பத்ம*"
+         }
+     }
+}
+```
+* Search when you think one term might show up in multiple fields
+ > E.g.- "தேசிய விருது"
+```
+{
+    "query" : {
+        "multi_match" : {
+            "query" : "தேசிய விருது",
+            "fields": ["awards", "description"]
+        }
+    }
+}
+```
+* Search for 20 young actors who are directors where young is decided based on "date_of_birth"
+ > E.g. - 20 இளைய இயக்குநர்
+```
+{
+   "size": 20,
+   "sort": [
+       { "date_of_birth": {"order" : "desc"}}
+   ],
+   "query": {
+       "multi_match": {
+           "fields":["other_occupations"],
+           "query" : "இயக்குநர்",
+           "fuzziness": "AUTO"
+       }
+   }
+}
+```
+* Search for Famous songs (of music directors/gneres/singers) where 'famous' is marked upon "நுகர்ச்சி" (views)
+ > E.g. - பிரபல்யமான 15 ஹரிஷ் ஜெயராஜ் பாடல்கள்
+```
+{
+   "size":15,
+   "sort" : [
+       { "நுகர்ச்சி" : {"order" : "desc"}}
+   ],
+   "query": {
+       "multi_match": {
+           "fields":["இசையமைப்பாளர்"],
+           "query" : "ஹரிஷ் ஜெயராஜ்",
+           "fuzziness": "AUTO"
+       }
+   }
+}
+```
+* Search with query spanning multiple fields
+ > E.g.- சிறந்த நடிகர் விருது பெற்ற தமிழ்நாடு நடிகர்
+```
+{
+    "query": {
+        "bool": {
+             "must": [
+                 { "match": { "awards": "சிறந்த நடிகர் விருது" }},
+                 { "match": { "place_of_birth": "தமிழ்நாடு" }}
+             ]
+        }
+    }
+}
+```
+* Seach for actors who are singers died recently (Range Query) where died recently is based on "date_of_death"
+ > E.g.- சமீபத்தில் இறந்த பாடகர்
+```
+{
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": {
+                        "other_occupations": "பாடகர்"
+                    }
+                },
+                {
+                    "range": {
+                        "date_of_death" : {
+                            "gte" : "2021"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+* Can search for lyricists who were born in Chennai (Filtered query)
+ > E.g. - சென்னை பாடலாசிரியர்
+```
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "other_occupations": "பாடலாசிரியர்"
+        }
+      },
+      "filter": {
+        "term": {
+          "place_of_birth": "சென்னை"
+        }
+      }
+    }
+  }
+}
+```
+* Get only prefered fields when searching with other field
+> E.g.- 20 இளைய இயக்குநர் துணைவர்/பிள்ளைகள்
+ * 
+```
+{
+   "size": 20,
+   "sort": [
+       { "date_of_birth": {"order" : "desc"}}
+   ],
+   "query": {
+       "multi_match": {
+           "fields":["other_occupations"],
+           "query" : "இயக்குநர்",
+           "fuzziness": "AUTO"
+       }
+   },
+   "_source":{
+       "includes":["spouse", "children"]
+   }
+}
+```
+* Search for details only with description of actors (Text Mining)
+```
+{
+  "query": {
+    "more_like_this": {
+      "fields": [
+        "description"
+      ],
+      "like": "தமிழ்நாட்டு மாதிரி நடிகர், குறும்பட நடிகர் மற்றும் தொலைக்காட்சி நடிகர். சிறப்பாக நடித்ததற்காக சிறந்த துணை நடிகருக்கான இந்திய தேசிய திரைப்பட விருது கிடைத்தது.",
+      "min_term_freq": 1,
+      "max_query_terms": 20
+    }
+  }
+}
+```
+* Can do aggregated bucket querying with terms
+```
+{
+  "aggs": {
+    "Occupations": {
+      "terms": {
+        "field": "other_occupations",
+        "size": 10
+      }
+    }
+  }
+}
+```
