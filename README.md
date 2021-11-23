@@ -42,3 +42,18 @@ This repository contains the source code of Tamil Actors Search Engine implement
 * Search for actors (Works only for basic search queries at the moment using this web app)
 * For advanced queries, try the search queries available in the [search_queries.txt](/search_queries.txt) file using [Postman](https://www.postman.com/downloads/) or [Kibana](https://www.elastic.co/kibana/).
 
+## Data fields 
+Each actor contains the following data fields.
+1. name - Name of the actor
+2. date_of_birth - Date of birth of the actor
+3. date_of_death - Date of death of the actor (if the actor is already dead)
+4. place_of_birth - Place of birth of the actor
+5. spouse - List of spouse of the actor
+6. children - List of children of the actor
+7. movies - List of movies acted by the actor
+   <br/>(for each movie in the list)
+   1. year - Release year of the movie
+   2. movie - Name of the movie
+8. other_occupations - List of occupations carried out by the actor other than acting
+9. awards - List of awards received by the actor
+10. description - Description of the actor
