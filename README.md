@@ -3,7 +3,7 @@
 This repository contains the source code of Tamil Actors Search Engine implemented using Python and Elasticsearch.
 
 ## Directory Structure
-
+```
  ├── analyzers : Custom Elasticsearch filters (Stems, Stopwords, Synonyms)
  ├── data : Data scraped from the website (https://ta.wikipedia.org/)
      ├── data_actors.json : Contains all scraped data of actors
@@ -19,3 +19,4 @@ This repository contains the source code of Tamil Actors Search Engine implement
  ├── search_queries.txt : Example search queries
  ├── setup_queries.txt : Some queries to setup the elasticsearch "tamilactors" index
  ├── web_scraping.py : Python file to scrape data, preprocess and store them in a JSON file
+```
